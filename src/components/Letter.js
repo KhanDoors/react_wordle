@@ -2,10 +2,20 @@ import React, { useContext } from "react";
 import { AppContext } from "../App";
 
 const Letter = ({ letterPos, attemptVal }) => {
-  const { board, setBoard } = useContext(AppContext);
+  const { board, setBoard, correctWord, currAtt } = useContext(AppContext);
   const letter = board[attemptVal][letterPos];
 
-  return <div className="letter">{letter}</div>;
+  const correct = correctWord[letterPos] === letter;
+  const almost = !correct && letter !== "" && correctWord.includes(letter);
+  const letterState =
+    currAtt.attempt > attemptVal &&
+    (correct ? "correct" : almost ? "almost" : "error");
+
+  return (
+    <div className="letter" id={letterState}>
+      {letter}
+    </div>
+  );
 };
 
 export default Letter;
